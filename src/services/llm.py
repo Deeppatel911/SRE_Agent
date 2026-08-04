@@ -3,7 +3,7 @@ from groq import Groq
 from langfuse import observe
 
 from src.core.config import settings
-from src.core.schemas import IncidentAnalysis, AlertPayload
+from src.core.schemas import IncidentAnalysis
 from src.prompts.sre_prompts import SRE_SYSTEM_PROMPT, SRE_USER_PROMPT
 
 # Initialize Groq client using central config
@@ -21,10 +21,7 @@ def analyze_incident_with_llm(alert: str) -> dict:
         f"Required JSON Schema:\n{IncidentAnalysis.model_json_schema()}"
     )
 
-    formatted_user_prompt = (
-        f"{SRE_USER_PROMPT}\n\n"
-        f"ALert:\n{AlertPayload.model_json_schema()}"
-    )
+    formatted_user_prompt = SRE_USER_PROMPT.format(alert_text=alert)
 
     response = client.chat.completions.create(
         model=settings.MODEL_NAME,
