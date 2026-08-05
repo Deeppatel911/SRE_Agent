@@ -6,3 +6,6 @@ groq==0.4.2
 langfuse>=2.0.0
 python-dotenv==1.0.0
 httpx==0.27.2
+
+qdrant-client>=1.16.1
+fastembed>=0.3.0

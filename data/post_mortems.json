@@ -1,0 +1,109 @@
+{
+    "incidents": [
+        {
+            "incident_id": "INC-001",
+            "title": "Database Connection Pool Overflow",
+            "symptoms": "High CPU usage on database servers, 100% error rate on API endpoints",
+            "root_cause": "Misconfigured database connection pool settings, leading to excessive connection establishment",
+            "resolution": "Adjusted connection pool settings, implemented a circuit breaker to prevent similar issues"
+        },
+        {
+            "incident_id": "INC-002",
+            "title": "Service Discovery Failure",
+            "symptoms": "API endpoints became unresponsive, DNS resolution issues reported",
+            "root_cause": "Service discovery registry became unresponsive due to disk space issues",
+            "resolution": "Migrated service discovery registry to a cloud-based solution, implemented disk space monitoring"
+        },
+        {
+            "incident_id": "INC-003",
+            "title": "API Gateway Authentication Bypass",
+            "symptoms": "Unauthorized access to sensitive data reported, API gateway logs showed invalid authentication tokens",
+            "root_cause": "API gateway software update introduced a vulnerability, not properly patched",
+            "resolution": "Applied the latest security patches, reconfigured authentication mechanisms"
+        },
+        {
+            "incident_id": "INC-004",
+            "title": "Container Orchestration Platform Crash",
+            "symptoms": "Application containers became unresponsive, error logs showed container runtime issues",
+            "root_cause": "Container orchestration platform software update caused a compatibility issue with underlying infrastructure",
+            "resolution": "Rolled back to previous version of container orchestration platform, reconfigured cluster settings"
+        },
+        {
+            "incident_id": "INC-005",
+            "title": "Network Partition Issue",
+            "symptoms": "API endpoints became unresponsive, network latency increased significantly",
+            "root_cause": "Network partition caused by a misconfigured load balancer",
+            "resolution": "Reconfigured load balancer settings, implemented network monitoring to detect similar issues"
+        },
+        {
+            "incident_id": "INC-006",
+            "title": "Caching Misconfiguration",
+            "symptoms": "API endpoints returned stale data, caching mechanisms reported high error rates",
+            "root_cause": "Caching mechanisms misconfigured, leading to outdated data being served",
+            "resolution": "Reconfigured caching settings, implemented cache invalidation mechanisms"
+        },
+        {
+            "incident_id": "INC-007",
+            "title": "Log Aggregation Service Unavailability",
+            "symptoms": "Logging and monitoring mechanisms became unresponsive, error logs showed log aggregation service issues",
+            "root_cause": "Log aggregation service became unresponsive due to disk space issues",
+            "resolution": "Migrated log aggregation service to a cloud-based solution, implemented disk space monitoring"
+        },
+        {
+            "incident_id": "INC-008",
+            "title": "API Endpoint Rate Limiting Failure",
+            "symptoms": "API endpoints became unresponsive, rate limiting mechanisms reported high error rates",
+            "root_cause": "Rate limiting mechanisms misconfigured, leading to excessive API calls",
+            "resolution": "Reconfigured rate limiting settings, implemented API key validation"
+        },
+        {
+            "incident_id": "INC-009",
+            "title": "Security Group Configuration Issue",
+            "symptoms": "API endpoints became unresponsive, security group logs showed unauthorized access attempts",
+            "root_cause": "Security group configuration issues, allowing unauthorized access to sensitive data",
+            "resolution": "Reconfigured security group settings, implemented security group monitoring"
+        },
+        {
+            "incident_id": "INC-010",
+            "title": "Distributed Lock Misconfiguration",
+            "symptoms": "API endpoints became unresponsive, distributed lock mechanisms reported high error rates",
+            "root_cause": "Distributed lock misconfiguration, leading to contention issues",
+            "resolution": "Reconfigured distributed lock settings, implemented lock monitoring"
+        },
+        {
+            "incident_id": "INC-011",
+            "title": "Cloud Provider Outage",
+            "symptoms": "API endpoints became unresponsive, error logs showed cloud provider issues",
+            "root_cause": "Cloud provider experienced an outage, affecting API endpoint availability",
+            "resolution": "Implemented cloud provider monitoring, rerouted traffic to alternative infrastructure"
+        },
+        {
+            "incident_id": "INC-012",
+            "title": "API Key Validation Failure",
+            "symptoms": "API endpoints became unresponsive, API key validation mechanisms reported high error rates",
+            "root_cause": "API key validation mechanisms misconfigured, leading to unauthorized access",
+            "resolution": "Reconfigured API key validation settings, implemented API key rotation"
+        },
+        {
+            "incident_id": "INC-013",
+            "title": "Service Mesh Configuration Issue",
+            "symptoms": "API endpoints became unresponsive, service mesh logs showed configuration issues",
+            "root_cause": "Service mesh configuration issues, affecting API endpoint availability",
+            "resolution": "Reconfigured service mesh settings, implemented service mesh monitoring"
+        },
+        {
+            "incident_id": "INC-014",
+            "title": "Container Image Vulnerability",
+            "symptoms": "API endpoints became unresponsive, error logs showed container image vulnerability issues",
+            "root_cause": "Container image vulnerability, allowing unauthorized access to sensitive data",
+            "resolution": "Updated container images, implemented vulnerability scanning"
+        },
+        {
+            "incident_id": "INC-015",
+            "title": "Load Balancer Configuration Issue",
+            "symptoms": "API endpoints became unresponsive, load balancer logs showed configuration issues",
+            "root_cause": "Load balancer configuration issues, affecting API endpoint availability",
+            "resolution": "Reconfigured load balancer settings, implemented load balancer monitoring"
+        }
+    ]
+}
