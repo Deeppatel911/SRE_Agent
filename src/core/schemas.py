@@ -12,3 +12,17 @@ class IncidentAnalysis(BaseModel):
 
 class AlertPayload(BaseModel):
     alert_text: str
+
+
+class SearchIncidentsSchema(BaseModel):
+    query: str = Field(
+        ...,
+        description="The semantic search query describing the current incident symptoms. Used to find similar historical outages."
+    )
+
+
+class LiveMetricsSchema(BaseModel):
+    service_name: str = Field(
+        ...,
+        description="The name of the internal microservice to query (e.g., 'payment-gateway', 'auth-service')."
+    )
