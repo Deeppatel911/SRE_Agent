@@ -16,3 +16,9 @@ class LiveMetricsSchema(BaseModel):
         ...,
         description="The name of the internal microservice to query (e.g., 'payment-gateway', 'auth-service')."
     )
+
+# A simple schema for the incoming webhook payload
+class WebhookPayload(BaseModel):
+    alert_text: str
+    callback_url: str  # n8n will provide this URL for us to send the final JSON to
+

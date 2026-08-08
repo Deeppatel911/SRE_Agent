@@ -3,6 +3,8 @@ from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
 import asyncio
 from src.api.celery_app import run_agent_task, celery_app
 
+from src.core.schemas import WebhookPayload
+
 router = APIRouter()
 
 # --- THE API ENDPOINT ---
@@ -59,3 +61,18 @@ async def websocket_diagnose(websocket: WebSocket):
 
     except WebSocketDisconnect:
         print("Client disconnected from WebSocket.")
+
+
+@router.post("/webhook/diagnose")
+async def webhook_diagnose(payload: WebhookPayload):
+    print(f"📥 [WEBHOOK] Received alert via n8n. Callback URL: {payload.callback_url}")
+
+    # Trigger the Celery task, passing both the alert AND the callback URL
+    task = run_agent_task.delay(payload.alert_text, payload.callback_url)
+
+    # Immediately return a 200 OK to n8n so it doesn't hang
+    return {
+        "status": "STARTED",
+        "task_id": task.id,
+        "message": "Agent dispatched. Results will be posted to the callback URL."
+    }

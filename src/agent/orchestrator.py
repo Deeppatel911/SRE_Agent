@@ -4,10 +4,10 @@ from groq import Groq
 from langfuse import observe
 from .tools import search_past_incidents, get_live_metrics
 from src.core.config import settings
-from src.prompts import AGENT_SYSTEM_PROMPT
+from src.prompts.sre_prompts import AGENT_SYSTEM_PROMPT
 
 # Initialize the Groq client
-client = Groq(settings.GROQ_API_KEY)
+client = Groq(api_key=settings.GROQ_API_KEY)
 model_name = settings.MODEL_NAME
 
 
