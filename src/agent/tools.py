@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="qdrant_client")
 # We instantiate the client here and ONLY expose the query method
 # to the agent. It has zero ability to call .add() or .delete()
 # ---------------------------------------------------------
-qdrant_client = QdrantClient(url="http://localhost:6333",check_compatibility=False)
+qdrant_client = QdrantClient(url="http://host.docker.internal:6333", check_compatibility=False) # use localhost when running the server on your host machine
 qdrant_client.set_model("BAAI/bge-small-en-v1.5")
 
 
