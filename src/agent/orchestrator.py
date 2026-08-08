@@ -3,27 +3,13 @@ import json
 from groq import Groq
 from langfuse import observe
 from .tools import search_past_incidents, get_live_metrics
-from dotenv import load_dotenv
+from src.core.config import settings
+from src.prompts import AGENT_SYSTEM_PROMPT
 
+# Initialize the Groq client
+client = Groq(settings.GROQ_API_KEY)
+model_name = settings.MODEL_NAME
 
-# Load dev environment variables
-load_dotenv(".env.dev")
-
-# Initialize the Groq client (Ensure GROQ_API_KEY is in your .env)
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-model_name = os.getenv("MODEL_NAME", "llama-3.1-8b-instant")
-
-SYSTEM_PROMPT = """You are an elite, autonomous Site Reliability Engineering (SRE) Agent. 
-Your goal is to diagnose server alerts accurately and rapidly.
-
-When receiving an incident report, you must ALWAYS:
-1. Use 'get_live_metrics' to check the current health of the affected service.
-2. Use 'search_past_incidents' to find historical precedents and known resolutions.
-3. Synthesize the live telemetry and historical context to provide a concise Root Cause Analysis (RCA) and an actionable resolution step.
-
-Constraints:
-- NEVER guess or hallucinate metrics. Rely strictly on the data returned by your tools.
-- Format your final response strictly with the headers: **Incident Summary**, **Telemetry**, **Root Cause Analysis**, and **Recommended Action**."""
 
 # ---------------------------------------------------------
 # Tool Definitions: Translating Pydantic to Groq's JSON Schema
@@ -80,7 +66,7 @@ def run_sre_agent(incident_alert: str) -> str:
     print(f"\n🚨 ALERT RECEIVED: {incident_alert}")
 
     messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "system", "content": AGENT_SYSTEM_PROMPT},
         {"role": "user", "content": incident_alert}
     ]
 
@@ -126,16 +112,3 @@ def run_sre_agent(incident_alert: str) -> str:
             })
 
     return "SYSTEM ERROR: Agent exceeded maximum allowed iterations without reaching a conclusion."
-
-
-# ---------------------------------------------------------
-# Local Execution Test
-# ---------------------------------------------------------
-if __name__ == "__main__":
-    test_alert = "PagerDuty Alert: The payment-gateway service is dropping connections and throwing 500 errors. Customers cannot check out."
-    final_diagnosis = run_sre_agent(test_alert)
-
-    print("\n" + "=" * 50)
-    print("FINAL SRE DIAGNOSIS")
-    print("=" * 50)
-    print(final_diagnosis)
