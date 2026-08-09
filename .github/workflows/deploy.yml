@@ -1,0 +1,50 @@
+name: SRE Agent CI/CD Gatekeeper
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  evaluate-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Inject Environment Variables and Secrets
+        # Dynamically builds the .env.dev file inside the GitHub runner
+        run: |
+          echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> .env.dev
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.dev
+          echo "LANGFUSE_SECRET_KEY=${{ secrets.LANGFUSE_SECRET_KEY }}" >> .env.dev
+          echo "LANGFUSE_PUBLIC_KEY=${{ secrets.LANGFUSE_PUBLIC_KEY }}" >> .env.dev
+          echo "LANGFUSE_BASE_URL=https://cloud.langfuse.com" >> .env.dev
+          echo "LANGFUSE_HOST=https://cloud.langfuse.com" >> .env.dev
+          echo "AGENT_MODEL_NAME=llama-3.3-70b-versatile" >> .env.dev
+          echo "JUDGE_MODEL_NAME=gpt-4o" >> .env.dev
+
+      - name: Spin Up Infrastructure (Redis & Qdrant)
+        run: |
+          docker run -d --name redis-broker -p 6379:6379 redis:alpine
+          docker run -d --name qdrant-local -p 6333:6333 -p 6334:6334 qdrant/qdrant
+
+      - name: Build SRE Agent Docker Image
+        run: docker build --no-cache -t sre-agent-api .
+
+      - name: Spin Up SRE Agent API & Celery Worker
+        run: |
+          docker run -d --name sre-agent-api --env-file .env.dev -p 8000:8000 sre-agent-api uvicorn src.main:app --host 0.0.0.0 --port 8000
+          docker run -d --name sre-agent-worker --env-file .env.dev sre-agent-api celery -A src.api.celery_app worker --loglevel=info
+
+      - name: Wait for Services to Initialize
+        run: sleep 10
+
+      - name: Populate Qdrant Knowledge Base
+        run: docker exec -e PYTHONPATH=/app sre-agent-api python src/scripts/populate_db.py
+
+      - name: Run LLM-as-a-Judge Evaluation (The Gatekeeper)
+        # If this script hits exit(1), GitHub Actions will fail the entire build.
+        run: docker exec -e PYTHONPATH=/app sre-agent-api python src/scripts/evaluate.py
