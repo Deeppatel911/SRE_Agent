@@ -21,8 +21,8 @@ jobs:
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.dev
           echo "LANGFUSE_SECRET_KEY=${{ secrets.LANGFUSE_SECRET_KEY }}" >> .env.dev
           echo "LANGFUSE_PUBLIC_KEY=${{ secrets.LANGFUSE_PUBLIC_KEY }}" >> .env.dev
-          echo "LANGFUSE_BASE_URL=https://cloud.langfuse.com" >> .env.dev
-          echo "LANGFUSE_HOST=https://cloud.langfuse.com" >> .env.dev
+          echo "LANGFUSE_BASE_URL=https://us.cloud.langfuse.com" >> .env.dev
+          echo "LANGFUSE_HOST=https://us.cloud.langfuse.com" >> .env.dev
           echo "AGENT_MODEL_NAME=llama-3.3-70b-versatile" >> .env.dev
           echo "JUDGE_MODEL_NAME=gpt-4o" >> .env.dev
 
