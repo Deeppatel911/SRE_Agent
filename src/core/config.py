@@ -10,10 +10,11 @@ class Settings:
     LANGFUSE_PUBLIC_KEY: str = os.getenv("LANGFUSE_PUBLIC_KEY", "")
     LANGFUSE_BASE_URL: str = os.getenv("LANGFUSE_BASE_URL", "https://cloud.langfuse.com")
     LANGFUSE_HOST: str = os.getenv("LANGFUSE_HOST", "https://cloud.langfuse.com")
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
 
-    # Model Hyperparameters
-    MODEL_NAME: str = os.getenv("MODEL_NAME", "llama-3.1-8b-instant")
-    MODEL_TEMPERATURE: float = float(os.getenv("MODEL_TEMPERATURE", "0.0"))
+    # Model
+    AGENT_MODEL_NAME: str = os.getenv("AGENT_MODEL_NAME", "llama-3.3-70b-versatile")
+    JUDGE_MODEL_NAME: str = os.getenv("JUDGE_MODEL_NAME", "gpt-4o")
 
 
 settings = Settings()

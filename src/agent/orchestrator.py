@@ -2,13 +2,13 @@ import os
 import json
 from groq import Groq
 from langfuse import observe
-from .tools import search_past_incidents, get_live_metrics
+from .tools import search_past_incidents, get_live_metrics, get_recent_logs
 from src.core.config import settings
 from src.prompts.sre_prompts import AGENT_SYSTEM_PROMPT
 
 # Initialize the Groq client
 client = Groq(api_key=settings.GROQ_API_KEY)
-model_name = settings.MODEL_NAME
+model_name = settings.AGENT_MODEL_NAME
 
 
 # ---------------------------------------------------------
@@ -48,6 +48,23 @@ tools_schema = [
                 "required": ["service_name"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_recent_logs",
+            "description": "Fetches recent server error logs and stack traces for a given microservice.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "service_name": {
+                        "type": "string",
+                        "description": "The name of the internal microservice to query."
+                    }
+                },
+                "required": ["service_name"]
+            }
+        }
     }
 ]
 
@@ -55,6 +72,7 @@ tools_schema = [
 available_tools = {
     "search_past_incidents": search_past_incidents,
     "get_live_metrics": get_live_metrics,
+    "get_recent_logs": get_recent_logs,
 }
 
 

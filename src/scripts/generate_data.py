@@ -5,7 +5,7 @@ from src.core.config import settings
 from src.prompts import DATA_GENERATION_PROMPT
 
 client = Groq(settings.GROQ_API_KEY)
-model_name = settings.MODEL_NAME
+model_name = settings.AGENT_MODEL_NAME
 
 
 print(f"Generating 15 synthetic SRE post-mortems using {model_name}...")

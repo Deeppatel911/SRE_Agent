@@ -82,3 +82,21 @@ def get_live_metrics(service_name: str) -> str:
         f"Memory Usage: {memory}\n"
         f"Error Rate: {error_rate}"
     )
+
+
+@observe(as_type="tool")
+def get_recent_logs(service_name: str) -> str:
+    """
+    Mocks a log aggregation platform (like Elasticsearch/Splunk).
+    Returns the most recent server logs for the given microservice.
+    """
+    print(f"  Tool Execution: Fetching logs for -> '{service_name}'")
+
+    if service_name.lower() == "payment-gateway":
+        return (
+            "[ERROR] payment-gateway - DB_TIMEOUT: Connection to 'payments_db' failed after 5000ms.\n"
+            "[ERROR] payment-gateway - HTTP 500: Checkout session failed to initialize.\n"
+            "[WARN] payment-gateway - Transaction retry limit exceeded. Dropping connection."
+        )
+    else:
+        return f"[INFO] {service_name} - Service operating normally. No errors in the last 15 minutes."
