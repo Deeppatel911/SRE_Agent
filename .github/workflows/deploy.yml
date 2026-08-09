@@ -36,8 +36,8 @@ jobs:
 
       - name: Spin Up SRE Agent API & Celery Worker
         run: |
-          docker run -d --name sre-agent-api --add-host=host.docker.internal:host-gateway --env-file .env.dev -p 8000:8000 sre-agent-api uvicorn src.main:app --host 0.0.0.0 --port 8000
-          docker run -d --name sre-agent-worker --add-host=host.docker.internal:host-gateway --env-file .env.dev sre-agent-api celery -A src.api.celery_app worker --loglevel=info
+          docker run -d --name sre-agent-api --network host --add-host=host.docker.internal:127.0.0.1 --env-file .env.dev -p 8000:8000 sre-agent-api uvicorn src.main:app --host 0.0.0.0 --port 8000
+          docker run -d --name sre-agent-worker --network host --add-host=host.docker.internal:127.0.0.1 --env-file .env.dev sre-agent-api celery -A src.api.celery_app worker --loglevel=info
 
       - name: Wait for Services to Initialize
         run: sleep 10
