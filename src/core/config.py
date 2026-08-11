@@ -16,5 +16,6 @@ class Settings:
     AGENT_MODEL_NAME: str = os.getenv("AGENT_MODEL_NAME", "llama-3.3-70b-versatile")
     JUDGE_MODEL_NAME: str = os.getenv("JUDGE_MODEL_NAME", "gpt-4o")
 
+    WEBHOOK_TOKEN = os.getenv("N8N_WEBHOOK_TOKEN", "")
 
 settings = Settings()
